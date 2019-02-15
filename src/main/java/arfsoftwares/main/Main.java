@@ -16,7 +16,7 @@ import java.util.List;
 public class Main {
 
 	public static void main(String[] args) {
-		ParticipantsReader participantReader = new CsvParticipantReader();
+		ParticipantsReader participantReader = new CsvParticipantReader(args[1]);
 		ReaderCommand readerCommand = new ReaderCommand();
 		List<Participant> participantList = participantReader.readParticipant(readerCommand);
 		CertificateGenerator generator = new GoJavaGenerator();
