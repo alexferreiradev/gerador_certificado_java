@@ -29,7 +29,7 @@ public class CsvParticipantReader implements ParticipantsReader {
 		} catch (IndexOutOfBoundsException | IOException e) {
 			e.printStackTrace();
 		} finally {
-			StreamHelper.closeSafe(inputStream);
+			StreamHelper.closeSafeInput(inputStream);
 		}
 
 		return null;

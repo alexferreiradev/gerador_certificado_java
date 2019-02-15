@@ -4,6 +4,7 @@ package arfsoftwares.helper;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
@@ -24,10 +25,20 @@ public final class StreamHelper {
 		return content.toString();
 	}
 
-	public static void closeSafe(InputStream inputStream) {
-		if (inputStream != null) {
+	public static void closeSafeInput(InputStream stream) {
+		if (stream != null) {
 			try {
-				inputStream.close();
+				stream.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public static void closeSafeOutput(OutputStream stream) {
+		if (stream != null) {
+			try {
+				stream.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

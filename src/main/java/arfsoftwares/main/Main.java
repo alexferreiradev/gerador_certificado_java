@@ -16,14 +16,48 @@ import java.util.List;
 public class Main {
 
 	public static void main(String[] args) {
+		validateParams(args);
+
+		System.out.println("Carregando lista de participantes de CSV");
 		ParticipantsReader participantReader = new CsvParticipantReader(args[1]);
-		ReaderCommand readerCommand = new ReaderCommand();
-		List<Participant> participantList = participantReader.readParticipant(readerCommand);
+		List<Participant> participantList = createParticipantList(participantReader);
+		System.out.println(participantList.size() + " participantes encontrados");
+
+		System.out.println("Criando lista de certificados");
+		List<Certificate> certificateList = createCertificateList(participantList);
+		System.out.println(certificateList.size() + " participantes encontrados");
+
+		System.out.println("Exportando certificados como PDF");
+		exportCertificates(certificateList);
+		System.out.println("Todos certificados exportados com sucesso");
+	}
+
+	private static void exportCertificates(List<Certificate> certificateList) {
+		CertificateExporter pdfExporter = new PdfExporter();
+		for (Certificate certificate : certificateList) {
+			System.out.println("Exportando certificado: " + certificate.getFileName());
+			pdfExporter.export(certificate);
+			System.out.println("Certificado exportado");
+		}
+	}
+
+	private static List<Certificate> createCertificateList(List<Participant> participantList) {
 		CertificateGenerator generator = new GoJavaGenerator();
 		CertificatorGeneratorCommand generatorCommand = new CertificatorGeneratorCommand();
-		Certificate certificate = generator.generateCertificate(generatorCommand);
-		CertificateExporter pdfExporter = new PdfExporter();
+		generatorCommand.setParticipantList(participantList);
+		generatorCommand.setEvent(participantList.get(0).getEvent());
+		return generator.generateCertificates(generatorCommand);
+	}
 
-		pdfExporter.export(certificate);
+	private static List<Participant> createParticipantList(ParticipantsReader participantReader) {
+		ReaderCommand readerCommand = new ReaderCommand();
+		return participantReader.readParticipant(readerCommand);
+	}
+
+	private static void validateParams(String[] args) {
+		if (args == null || args.length < 1) {
+			System.out.println("Utilize: java -jar Main file.csv\n\nSendo que file.csv é um arquivo com os dados dos participantes");
+			throw new IllegalArgumentException("Argumentos não estão válidos");
+		}
 	}
 }
