@@ -8,13 +8,18 @@ import arfsoftwares.sevice.dto.CertificatorGeneratorCommand;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,20 +51,32 @@ public class GoJavaGenerator implements CertificateGenerator {
 		try {
 			File certificateTemp = File.createTempFile("certificateTemp", ".pdf");
 			fileOutputStream = new FileOutputStream(certificateTemp);
-			document = new Document();
-			PdfWriter.getInstance(document, fileOutputStream);
+			document = new Document(PageSize.A4.rotate());
+			PdfWriter writer = PdfWriter.getInstance(document, fileOutputStream);
 			document.open();
-			document.add(new Phrase("Certificado de Teste"));
+			document.add(new Phrase("Certificado para evento " + participant.getEvent().getName()));
 			document.add(new Chunk(Chunk.NEWLINE));
 			document.add(new Phrase("Nome do participante: "));
 			document.add(new Phrase(participant.getName() + " " + participant.getLastName()));
+
+			PdfContentByte background = writer.getDirectContentUnder();
+			Image image = Image.getInstance(getClass().getResource("/img/go_java_background.jpeg").toURI().toURL());
+			image.setAbsolutePosition(0, 0);
+			image.setScaleToFitHeight(true);
+			image.scaleAbsolute(PageSize.A4.rotate());
+			background.saveState();
+			PdfGState pdfGState = new PdfGState();
+			pdfGState.setFillOpacity(0.6f);
+			background.setGState(pdfGState);
+			background.addImage(image);
+			background.restoreState();
 
 			document.close();
 			fileOutputStream.flush();
 			certificateTemp.deleteOnExit();
 
 			return FileUtils.readFileToByteArray(certificateTemp);
-		} catch (IOException | DocumentException e) {
+		} catch (IOException | DocumentException | URISyntaxException e) {
 			e.printStackTrace();
 		} finally {
 			if (document != null) {
