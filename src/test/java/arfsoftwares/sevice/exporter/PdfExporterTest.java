@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 public class PdfExporterTest {
 
@@ -33,7 +34,7 @@ public class PdfExporterTest {
 		byte[] fileContentExpected = certificate.getFileContent();
 		File file = new File("./certificados/" + CertificateUtiltest.createFileName(certificate));
 
-		Assert.assertEquals(FileUtils.readFileToByteArray(file), fileContentExpected);
+		Assert.assertTrue(Arrays.equals(FileUtils.readFileToByteArray(file), fileContentExpected));
 	}
 
 	private Certificate createCertificateToTest() throws URISyntaxException, IOException {

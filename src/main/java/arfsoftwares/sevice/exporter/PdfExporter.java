@@ -20,7 +20,11 @@ public class PdfExporter implements CertificateExporter {
 			boolean mkdirs = createCertDir();
 			boolean newFile = file.createNewFile();
 			if (!newFile || !mkdirs) {
-				throw new IOException("Não foi possível criar o arquivo: " + file.toString());
+				if (!file.exists()) {
+					throw new IOException("Não foi possível criar o arquivo: " + file.toString());
+				} else {
+					System.out.println("Arquivo já existe, será ignorado a geração");
+				}
 			}
 
 			fileOutputStream = new FileOutputStream(file);

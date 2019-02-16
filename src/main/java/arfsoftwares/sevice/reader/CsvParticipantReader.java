@@ -5,6 +5,8 @@ import arfsoftwares.data.model.Participant;
 import arfsoftwares.helper.StreamHelper;
 import arfsoftwares.sevice.dto.ReaderCommand;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -13,16 +15,17 @@ import java.util.StringTokenizer;
 
 public class CsvParticipantReader implements ParticipantsReader {
 
-	private String fileName;
+	private String absoluteFilePath;
 
-	public CsvParticipantReader(String fileName) {
-		this.fileName = fileName;
+	public CsvParticipantReader(String absoluteFilePath) {
+		this.absoluteFilePath = absoluteFilePath;
 	}
 
 	@Override
 	public List<Participant> readParticipant(ReaderCommand command) {
-		InputStream inputStream = getClass().getResourceAsStream(fileName);
+		InputStream inputStream = null;
 		try {
+			inputStream = new FileInputStream(new File(absoluteFilePath));
 			String text = StreamHelper.parseStream(inputStream);
 
 			return buildParticipantList(text);

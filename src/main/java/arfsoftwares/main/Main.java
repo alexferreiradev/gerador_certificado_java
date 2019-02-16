@@ -11,6 +11,7 @@ import arfsoftwares.sevice.generator.GoJavaGenerator;
 import arfsoftwares.sevice.reader.CsvParticipantReader;
 import arfsoftwares.sevice.reader.ParticipantsReader;
 
+import java.io.File;
 import java.util.List;
 
 public class Main {
@@ -19,7 +20,7 @@ public class Main {
 		validateParams(args);
 
 		System.out.println("Carregando lista de participantes de CSV");
-		ParticipantsReader participantReader = new CsvParticipantReader(args[1]);
+		ParticipantsReader participantReader = new CsvParticipantReader(createFilePathFromArgs(args));
 		List<Participant> participantList = createParticipantList(participantReader);
 		System.out.println(participantList.size() + " participantes encontrados");
 
@@ -30,6 +31,11 @@ public class Main {
 		System.out.println("Exportando certificados como PDF");
 		exportCertificates(certificateList);
 		System.out.println("Todos certificados exportados com sucesso");
+	}
+
+	private static String createFilePathFromArgs(String[] args) {
+		File file = new File("./");
+		return file.toPath().resolve(args[1]).toFile().getAbsolutePath();
 	}
 
 	private static void exportCertificates(List<Certificate> certificateList) {
@@ -57,6 +63,7 @@ public class Main {
 	private static void validateParams(String[] args) {
 		if (args == null || args.length < 1) {
 			System.out.println("Utilize: java -jar Main file.csv\n\nSendo que file.csv é um arquivo com os dados dos participantes");
+
 			throw new IllegalArgumentException("Argumentos não estão válidos");
 		}
 	}

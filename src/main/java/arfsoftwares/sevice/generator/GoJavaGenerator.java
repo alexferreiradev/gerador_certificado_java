@@ -52,7 +52,7 @@ public class GoJavaGenerator implements CertificateGenerator {
 			document.add(new Phrase("Certificado de Teste"));
 			document.add(new Chunk(Chunk.NEWLINE));
 			document.add(new Phrase("Nome do participante: "));
-			document.add(new Phrase(participant.getName()));
+			document.add(new Phrase(participant.getName() + " " + participant.getLastName()));
 
 			document.close();
 			fileOutputStream.flush();
