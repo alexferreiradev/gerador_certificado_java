@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'arfsoftwares'
-version '1.0.1-alpha-SNAPSHOT'
+version '1.0.1-SNAPSHOT'
 
 jar {
 	manifest {
