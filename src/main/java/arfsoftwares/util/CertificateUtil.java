@@ -2,7 +2,7 @@ package arfsoftwares.util;
 
 import arfsoftwares.data.model.Certificate;
 
-public final class CertificateUtiltest {
+public final class CertificateUtil {
 
 	public static String createFileName(Certificate certificate) {
 		if (certificate == null) {

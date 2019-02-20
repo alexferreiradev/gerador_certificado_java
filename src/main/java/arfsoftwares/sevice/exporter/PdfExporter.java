@@ -2,7 +2,7 @@ package arfsoftwares.sevice.exporter;
 
 import arfsoftwares.data.model.Certificate;
 import arfsoftwares.helper.StreamHelper;
-import arfsoftwares.util.CertificateUtiltest;
+import arfsoftwares.util.CertificateUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,7 +14,7 @@ public class PdfExporter implements CertificateExporter {
 
 	@Override
 	public void export(Certificate certificate) {
-		File file = new File("./" + CERT_DIR_NAME + "/" + CertificateUtiltest.createFileName(certificate));
+		File file = new File("./" + CERT_DIR_NAME + "/" + CertificateUtil.createFileName(certificate));
 		FileOutputStream fileOutputStream = null;
 		try {
 			boolean mkdirs = createCertDir();

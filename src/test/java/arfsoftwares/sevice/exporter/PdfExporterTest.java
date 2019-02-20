@@ -1,7 +1,7 @@
 package arfsoftwares.sevice.exporter;
 
 import arfsoftwares.data.model.Certificate;
-import arfsoftwares.util.CertificateUtiltest;
+import arfsoftwares.util.CertificateUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,7 +32,7 @@ public class PdfExporterTest {
 
 	private void validateCertificateContent(Certificate certificate) throws IOException {
 		byte[] fileContentExpected = certificate.getFileContent();
-		File file = new File("./certificados/" + CertificateUtiltest.createFileName(certificate));
+		File file = new File("./certificados/" + CertificateUtil.createFileName(certificate));
 
 		Assert.assertTrue(Arrays.equals(FileUtils.readFileToByteArray(file), fileContentExpected));
 	}
