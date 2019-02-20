@@ -25,7 +25,7 @@ public class Main {
 		System.out.println(participantList.size() + " participantes encontrados");
 
 		System.out.println("Criando lista de certificados");
-		List<Certificate> certificateList = createCertificateList(participantList);
+		List<Certificate> certificateList = createCertificateList(participantList, args);
 		System.out.println(certificateList.size() + " participantes encontrados");
 
 		System.out.println("Exportando certificados como PDF");
@@ -47,11 +47,15 @@ public class Main {
 		}
 	}
 
-	private static List<Certificate> createCertificateList(List<Participant> participantList) {
+	private static List<Certificate> createCertificateList(List<Participant> participantList, String[] args) {
 		CertificateGenerator generator = new GoJavaGenerator();
 		CertificatorGeneratorCommand generatorCommand = new CertificatorGeneratorCommand();
 		generatorCommand.setParticipantList(participantList);
-		generatorCommand.setEvent(participantList.get(0).getEvent());
+		String param = args.length >= 2 ? args[2] : "";
+		if (param != null && !param.isEmpty()) {
+			generatorCommand.setBackgroundFileName(param);
+		}
+
 		return generator.generateCertificates(generatorCommand);
 	}
 

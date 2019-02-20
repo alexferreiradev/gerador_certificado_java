@@ -1,6 +1,5 @@
 package arfsoftwares.sevice.dto;
 
-import arfsoftwares.data.model.Event;
 import arfsoftwares.data.model.Participant;
 
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 public class CertificatorGeneratorCommand {
 
 	private List<Participant> participantList;
-	private Event event;
+	private String backgroundFileName;
 
 	public List<Participant> getParticipantList() {
 		return participantList;
@@ -18,11 +17,11 @@ public class CertificatorGeneratorCommand {
 		this.participantList = participantList;
 	}
 
-	public Event getEvent() {
-		return event;
+	public String getBackgroundFileName() {
+		return backgroundFileName;
 	}
 
-	public void setEvent(Event event) {
-		this.event = event;
+	public void setBackgroundFileName(String backgroundFileName) {
+		this.backgroundFileName = backgroundFileName;
 	}
 }

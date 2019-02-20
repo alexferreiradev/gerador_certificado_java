@@ -1,9 +1,9 @@
 package arfsoftwares.sevice.generator;
 
 import arfsoftwares.data.model.Certificate;
-import arfsoftwares.data.model.Event;
 import arfsoftwares.data.model.Participant;
 import arfsoftwares.helper.DateHelper;
+import arfsoftwares.helper.FileHelper;
 import arfsoftwares.helper.StreamHelper;
 import arfsoftwares.sevice.dto.CertificatorGeneratorCommand;
 import arfsoftwares.util.ParticipantUtil;
@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +36,6 @@ public class GoJavaGenerator implements CertificateGenerator {
 	public List<Certificate> generateCertificates(CertificatorGeneratorCommand command) {
 		List<Certificate> certificateList = new ArrayList<>();
 
-		Event event = command.getEvent();
 		List<Participant> participantList = command.getParticipantList();
 
 		for (Participant participant : participantList) {
@@ -43,7 +43,7 @@ public class GoJavaGenerator implements CertificateGenerator {
 
 			certificate.setFileName(createCertName(participant));
 			certificate.setFileExtension("pdf");
-			certificate.setFileContent(buildPdfFileContent(participant));
+			certificate.setFileContent(buildPdfFileContent(participant, command));
 
 			certificateList.add(certificate);
 		}
@@ -51,7 +51,7 @@ public class GoJavaGenerator implements CertificateGenerator {
 		return certificateList;
 	}
 
-	private byte[] buildPdfFileContent(Participant participant) {
+	private byte[] buildPdfFileContent(Participant participant, CertificatorGeneratorCommand command) {
 		FileOutputStream fileOutputStream = null;
 		Document document = null;
 
@@ -71,7 +71,7 @@ public class GoJavaGenerator implements CertificateGenerator {
 			ct.addElement(paragraph);
 			ct.go();
 
-			addBackgroundImage(writer.getDirectContentUnder());
+			addBackgroundImage(writer.getDirectContentUnder(), command);
 
 			document.close();
 			certificateTemp.deleteOnExit();
@@ -89,8 +89,15 @@ public class GoJavaGenerator implements CertificateGenerator {
 		return null;
 	}
 
-	private void addBackgroundImage(PdfContentByte background) throws IOException, URISyntaxException, DocumentException {
-		Image image = Image.getInstance(getClass().getResource("/img/gojava_certificado-1-0-0.png").toURI().toURL());
+	private void addBackgroundImage(PdfContentByte background, CertificatorGeneratorCommand command) throws IOException, URISyntaxException, DocumentException {
+		String backgroundFileName = command.getBackgroundFileName();
+
+		URL backgroundUrl = getClass().getResource("/img/gojava_certificado-1-0-0.png").toURI().toURL();
+		if (FileHelper.isValidFile(backgroundFileName)) {
+			backgroundUrl = new File(backgroundFileName).toURI().toURL();
+		}
+
+		Image image = Image.getInstance(backgroundUrl);
 		image.setAbsolutePosition(0, 0);
 		image.scaleAbsolute(PageSize.A4.rotate());
 		background.saveState();
