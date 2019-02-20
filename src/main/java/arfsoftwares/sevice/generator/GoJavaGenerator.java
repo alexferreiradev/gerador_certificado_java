@@ -90,12 +90,12 @@ public class GoJavaGenerator implements CertificateGenerator {
 	}
 
 	private void addBackgroundImage(PdfContentByte background) throws IOException, URISyntaxException, DocumentException {
-		Image image = Image.getInstance(getClass().getResource("/img/gojava_certificate.png").toURI().toURL());
+		Image image = Image.getInstance(getClass().getResource("/img/gojava_certificado-1-0-0.png").toURI().toURL());
 		image.setAbsolutePosition(0, 0);
 		image.scaleAbsolute(PageSize.A4.rotate());
 		background.saveState();
 		PdfGState pdfGState = new PdfGState();
-		pdfGState.setFillOpacity(0.6f);
+		pdfGState.setFillOpacity(0.8f);
 		background.setGState(pdfGState);
 		background.addImage(image);
 		background.restoreState();
