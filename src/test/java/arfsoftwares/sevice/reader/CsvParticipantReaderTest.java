@@ -31,7 +31,14 @@ public class CsvParticipantReaderTest {
 		Assert.assertEquals(8, participants.size());
 		Assert.assertEquals("Alex", participants.get(0).getName());
 		Assert.assertEquals("Rabelo Ferreira", participants.get(0).getLastName());
+		Assert.assertEquals("09876543212", participants.get(0).getCpf());
+		Assert.assertNull(participants.get(0).getRg());
 		Assert.assertEquals("4", participants.get(0).getHour());
-		Assert.assertEquals("GoJava", participants.get(0).getEvent().getName());
+		Assert.assertEquals("BrasilTurJavaJug", participants.get(0).getEvent().getName());
+		Assert.assertEquals("GoJava", participants.get(0).getEvent().getExecutor());
+		Assert.assertEquals("GoJava", participants.get(0).getEvent().getExecutor());
+		Assert.assertEquals("desenvolvimento ágil, carreira de TI e micro-profile", participants.get(0).getEvent().getTalkerTopics());
+		Assert.assertEquals(1550631600000L, participants.get(0).getEvent().getDateStarted().getTime());
+		Assert.assertEquals(1550631600000L, participants.get(0).getEvent().getDateEnded().getTime());
 	}
 }

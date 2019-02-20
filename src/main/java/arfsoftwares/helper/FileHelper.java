@@ -6,6 +6,10 @@ import java.io.FileInputStream;
 public final class FileHelper {
 
 	public static boolean isValidFile(String fileName) {
+		if (fileName == null) {
+			return false;
+		}
+
 		File file = new File(fileName);
 
 		try (FileInputStream fileInputStream = new FileInputStream(file)) {

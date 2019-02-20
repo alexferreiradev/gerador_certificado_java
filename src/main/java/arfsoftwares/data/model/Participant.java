@@ -6,6 +6,8 @@ public class Participant extends BaseModel {
 
 	private String name;
 	private String lastName;
+	private String rg;
+	private String cpf;
 	private String hour;
 	private Event event;
 
@@ -23,6 +25,22 @@ public class Participant extends BaseModel {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public String getHour() {
@@ -48,13 +66,15 @@ public class Participant extends BaseModel {
 		Participant that = (Participant) o;
 		return Objects.equals(name, that.name) &&
 				Objects.equals(lastName, that.lastName) &&
+				Objects.equals(rg, that.rg) &&
+				Objects.equals(cpf, that.cpf) &&
 				Objects.equals(hour, that.hour) &&
 				Objects.equals(event, that.event);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name, lastName, hour, event);
+		return Objects.hash(name, lastName, rg, cpf, hour, event);
 	}
 
 	@Override
@@ -62,6 +82,8 @@ public class Participant extends BaseModel {
 		return "Participant{" +
 				"name='" + name + '\'' +
 				", lastName='" + lastName + '\'' +
+				", rg='" + rg + '\'' +
+				", cpf='" + cpf + '\'' +
 				", hour='" + hour + '\'' +
 				", event=" + event +
 				'}';

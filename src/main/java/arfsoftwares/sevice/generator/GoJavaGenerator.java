@@ -111,7 +111,7 @@ public class GoJavaGenerator implements CertificateGenerator {
 	private Paragraph createParagraphToCertText(Participant participant, Font paragraphFont) {
 		Paragraph paragraph = new Paragraph();
 		paragraph.setLeading(0f, 1.1f);
-		paragraph.setAlignment(Paragraph.ALIGN_JUSTIFIED_ALL);
+		paragraph.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 		paragraph.setFont(paragraphFont);
 		paragraph.add(generateCertificateText(participant));
 		return paragraph;
@@ -127,13 +127,29 @@ public class GoJavaGenerator implements CertificateGenerator {
 	}
 
 	private String generateCertificateText(Participant participant) {
-		String finalText = "Certificamos que NOME_PARTICIPANTE com CPF CPF_PARTICIPANTE participou do evento NOME_EVENTO durante HORAS_EVENTO horas no dia DATA_EVENTO promovido pelo Gojava - Grupo de usuários Java de Goiás. O evento foi sobre ASSUNTO_EVENTO dentro da área de TI.";
+		String finalText = "Certificamos que NOME_PARTICIPANTE com TIPO_IDENTIFICACAO IDENTIFICACAO_PARTICIPANTE participou do evento NOME_EVENTO durante HORAS_EVENTO horas no dia DATA_EVENTO promovido pelo Gojava - Grupo de usuários Java de Goiás. O evento foi sobre ASSUNTO_EVENTO.";
 		finalText = finalText.replaceAll("NOME_PARTICIPANTE", ParticipantUtil.participantCompleteName(participant).toUpperCase());
-		finalText = finalText.replaceAll("CPF_PARTICIPANTE", "");
+		if (participant.getCpf() != null) {
+			finalText = finalText.replaceAll("TIPO_IDENTIFICACAO", "CPF");
+			finalText = finalText.replaceAll("IDENTIFICACAO_PARTICIPANTE", participant.getCpf());
+		} else {
+			finalText = finalText.replaceAll("TIPO_IDENTIFICACAO", "RG");
+			finalText = finalText.replaceAll("IDENTIFICACAO_PARTICIPANTE", participant.getRg());
+		}
 		finalText = finalText.replaceAll("NOME_EVENTO", participant.getEvent().getName());
 		finalText = finalText.replaceAll("HORAS_EVENTO", participant.getHour());
-		finalText = finalText.replaceAll("DATA_EVENTO", DateHelper.format(new Date(), DateFormat.SHORT));
-		finalText = finalText.replaceAll("ASSUNTO_EVENTO", "");
+
+		Date dateStarted = participant.getEvent().getDateStarted();
+		Date dateEnded = participant.getEvent().getDateEnded();
+		if (dateEnded != null && !dateEnded.equals(dateStarted)) {
+			String dateStartedString = DateHelper.format(dateStarted, DateFormat.SHORT);
+			String dateEndedString = DateHelper.format(dateEnded, DateFormat.SHORT);
+			finalText = finalText.replaceAll("DATA_EVENTO", String.format("%s - %s", dateStartedString, dateEndedString));
+		} else {
+			finalText = finalText.replaceAll("DATA_EVENTO", DateHelper.format(dateStarted, DateFormat.SHORT));
+		}
+
+		finalText = finalText.replaceAll("ASSUNTO_EVENTO", participant.getEvent().getTalkerTopics());
 
 		return finalText;
 	}

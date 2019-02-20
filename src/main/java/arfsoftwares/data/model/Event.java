@@ -6,16 +6,17 @@ import java.util.Objects;
 public class Event extends BaseModel {
 
 	private String name;
-	private String description;
+	private String executor;
+	private String talkerTopics;
 	private Date dateStarted;
 	private Date dateEnded;
 
-	public String getDescription() {
-		return description;
+	public String getTalkerTopics() {
+		return talkerTopics;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setTalkerTopics(String description) {
+		this.talkerTopics = description;
 	}
 
 	public Date getDateStarted() {
@@ -42,27 +43,37 @@ public class Event extends BaseModel {
 		this.name = name;
 	}
 
+	public String getExecutor() {
+		return executor;
+	}
+
+	public void setExecutor(String executor) {
+		this.executor = executor;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Event event = (Event) o;
 		return Objects.equals(name, event.name) &&
-				Objects.equals(description, event.description) &&
+				Objects.equals(executor, event.executor) &&
+				Objects.equals(talkerTopics, event.talkerTopics) &&
 				Objects.equals(dateStarted, event.dateStarted) &&
 				Objects.equals(dateEnded, event.dateEnded);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name, description, dateStarted, dateEnded);
+		return Objects.hash(name, executor, talkerTopics, dateStarted, dateEnded);
 	}
 
 	@Override
 	public String toString() {
 		return "Event{" +
 				"name='" + name + '\'' +
-				", description='" + description + '\'' +
+				", executor='" + executor + '\'' +
+				", talkerTopics='" + talkerTopics + '\'' +
 				", dateStarted=" + dateStarted +
 				", dateEnded=" + dateEnded +
 				'}';

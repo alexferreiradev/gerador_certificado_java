@@ -2,6 +2,7 @@ package arfsoftwares.sevice.reader;
 
 import arfsoftwares.data.model.Event;
 import arfsoftwares.data.model.Participant;
+import arfsoftwares.helper.DateHelper;
 import arfsoftwares.helper.StreamHelper;
 import arfsoftwares.sevice.dto.ReaderCommand;
 
@@ -9,11 +10,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
 public class CsvParticipantReader implements ParticipantsReader {
+
+	private static final int NAME_CSV_INDEX = 0;
+	private static final int LASTNAME_CSV_INDEX = 1;
+	private static final int IDENTITY_CSV_INDEX = 2;
+	private static final int EVENTHOURS_CSV_INDEX = 3;
+	private static final int EVENTEXECUTOR_CSV_INDEX = 4;
+	private static final int EVENTNAME_CSV_INDEX = 5;
+	private static final int EVENTTOPICS_CSV_INDEX = 6;
+	private static final int EVENTDATESTARTED_CSV_INDEX = 7;
+	private static final int EVENTDATEENDED_CSV_INDEX = 8;
 
 	private String absoluteFilePath;
 
@@ -54,10 +67,16 @@ public class CsvParticipantReader implements ParticipantsReader {
 	private Participant buildParticipant(String line) {
 		Participant participant = new Participant();
 
-		String[] colunms = line.split("[,;\t]");
-		participant.setName(colunms[0]);
-		participant.setLastName(colunms[1]);
-		participant.setHour(colunms[2]);
+		String[] colunms = line.split("[;|\t]");
+		participant.setName(colunms[NAME_CSV_INDEX]);
+		participant.setLastName(colunms[LASTNAME_CSV_INDEX]);
+		participant.setHour(colunms[EVENTHOURS_CSV_INDEX]);
+		String identity = colunms[IDENTITY_CSV_INDEX];
+		if (identity.length() > 7) {
+			participant.setCpf(identity);
+		} else {
+			participant.setRg(identity);
+		}
 		participant.setEvent(buildEvent(colunms));
 
 		return participant;
@@ -65,7 +84,13 @@ public class CsvParticipantReader implements ParticipantsReader {
 
 	private Event buildEvent(String[] colunm) {
 		Event event = new Event();
-		event.setName(colunm[3]);
+		event.setName(colunm[EVENTNAME_CSV_INDEX]);
+		event.setTalkerTopics(colunm[EVENTTOPICS_CSV_INDEX]);
+		event.setExecutor(colunm[EVENTEXECUTOR_CSV_INDEX]);
+		Date startedDate = DateHelper.parse(colunm[EVENTDATESTARTED_CSV_INDEX], DateFormat.SHORT);
+		event.setDateStarted(startedDate);
+		Date endedDate = DateHelper.parse(colunm[EVENTDATEENDED_CSV_INDEX], DateFormat.SHORT);
+		event.setDateEnded(endedDate);
 
 		return event;
 	}
