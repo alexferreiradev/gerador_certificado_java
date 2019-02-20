@@ -3,7 +3,7 @@ Sistema para gerar certificados para eventos. O sistema foi proposto inicialment
 
 # Objetivo do GOjava
 O objetivo do projeto era ajudar o GOJava a agilizar a entrega de certificados para ouvintes de eventos promovidos pela comunidade. Portanto, o gerador gera um PDF pronto para ser enviado para os ouvintes.
-Exemplo de PDF gerado: 
+Exemplo de PDF gerado: (Exemplo.pdf)[https://github.com/alexferreiradev/gerador_certificado_java/blob/master/certificados/certificado_Alex.pdf]
 
 # Contributions
 Envie um e-mail para arf92@live.com e mostre seu interesse em contribuir e suas ideias para contribuir.
