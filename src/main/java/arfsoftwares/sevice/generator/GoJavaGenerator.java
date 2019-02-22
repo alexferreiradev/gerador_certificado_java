@@ -155,6 +155,11 @@ public class GoJavaGenerator implements CertificateGenerator {
 	}
 
 	private String createCertName(Participant participant) {
-		return "certificado_" + participant.getName();
+		String identy = participant.getCpf();
+		if (identy == null || identy.isEmpty()) {
+			identy = participant.getRg();
+		}
+
+		return "certificado_" + identy;
 	}
 }
