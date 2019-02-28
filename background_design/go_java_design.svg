@@ -29,11 +29,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.43404533"
-     inkscape:cx="562.56354"
-     inkscape:cy="303.4862"
+     inkscape:zoom="2.4553312"
+     inkscape:cx="874.74974"
+     inkscape:cy="-708.38053"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:snap-bbox="true"
      inkscape:window-width="1317"
@@ -268,13 +268,15 @@
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.56265497px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.05703317px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="243.38741"
-       y="184.30296"
+       y="184.82762"
        id="text4713"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96"
        transform="scale(0.99147185,1.0086015)"><tspan
          sodipodi:role="line"
-         id="tspan871">PRESIDENTE GOJAVA</tspan></text>
+         id="tspan871"
+         x="243.38741"
+         y="184.82762">JUG Leader GOJAVA</tspan></text>
     <text
        id="text4725"
        y="184.78983"
@@ -326,19 +328,6 @@
        transform="scale(0.99147185,1.0086015)"
        inkscape:export-ydpi="96"
        inkscape:export-xdpi="96"
-       id="text892"
-       y="409.90448"
-       x="243.38741"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.56265497px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.05703317px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
-         id="tspan890"
-         sodipodi:role="line"
-         x="243.38741"
-         y="409.90448">PRESIDENTE GOJAVA</tspan></text>
-    <text
-       transform="scale(0.99147185,1.0086015)"
-       inkscape:export-ydpi="96"
-       inkscape:export-xdpi="96"
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29166651px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.06766068px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="57.615372"
@@ -368,5 +357,18 @@
        x="210.3093"
        y="407.04883"
        ry="0.11281579" />
+    <text
+       transform="scale(0.99147185,1.0086015)"
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       id="text961"
+       y="411.47845"
+       x="243.38741"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.56265497px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.05703317px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         y="411.47845"
+         x="243.38741"
+         id="tspan959"
+         sodipodi:role="line">JUG Leader GOJAVA</tspan></text>
   </g>
 </svg>

@@ -92,7 +92,7 @@ public class GoJavaGenerator implements CertificateGenerator {
 	private void addBackgroundImage(PdfContentByte background, CertificatorGeneratorCommand command) throws IOException, URISyntaxException, DocumentException {
 		String backgroundFileName = command.getBackgroundFileName();
 
-		URL backgroundUrl = getClass().getResource("/img/gojava_certificado-1-0-0.png").toURI().toURL();
+		URL backgroundUrl = getClass().getResource("/img/gojava_certificado-2-0-0.png").toURI().toURL();
 		if (FileHelper.isValidFile(backgroundFileName)) {
 			backgroundUrl = new File(backgroundFileName).toURI().toURL();
 		}
