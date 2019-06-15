@@ -4,6 +4,7 @@ import arfsoftwares.data.model.Certificate;
 import arfsoftwares.data.model.Participant;
 import arfsoftwares.helper.RegexHelper;
 import arfsoftwares.sevice.dto.CertificatorGeneratorCommand;
+import arfsoftwares.sevice.generator.token.TokenGenerator_SHA256;
 import arfsoftwares.sevice.reader.CsvParticipantReader;
 import arfsoftwares.sevice.reader.ParticipantsReader;
 import org.apache.commons.io.FileUtils;
@@ -24,7 +25,7 @@ public class GoJavaGeneratorTest {
 
 	@Before
 	public void setUp() {
-		generator = new GoJavaGenerator();
+		generator = new GoJavaGenerator(new TokenGenerator_SHA256());
 	}
 
 	@Test

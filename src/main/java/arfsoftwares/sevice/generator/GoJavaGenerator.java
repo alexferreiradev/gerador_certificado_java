@@ -1,13 +1,12 @@
 package arfsoftwares.sevice.generator;
 
 import arfsoftwares.data.model.Certificate;
-import arfsoftwares.data.model.Event;
 import arfsoftwares.data.model.Participant;
 import arfsoftwares.helper.DateHelper;
 import arfsoftwares.helper.FileHelper;
 import arfsoftwares.helper.StreamHelper;
-import arfsoftwares.helper.UUIDHelper;
 import arfsoftwares.sevice.dto.CertificatorGeneratorCommand;
+import arfsoftwares.sevice.generator.token.TokenGenerator;
 import arfsoftwares.util.ParticipantUtil;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -34,6 +33,13 @@ import java.util.Date;
 import java.util.List;
 
 public class GoJavaGenerator implements CertificateGenerator {
+
+	private TokenGenerator tokenGenerator;
+
+	public GoJavaGenerator(TokenGenerator tokenGenerator) {
+		this.tokenGenerator = tokenGenerator;
+	}
+
 	@Override
 	public List<Certificate> generateCertificates(CertificatorGeneratorCommand command) {
 		List<Certificate> certificateList = new ArrayList<>();
@@ -46,36 +52,13 @@ public class GoJavaGenerator implements CertificateGenerator {
 
 			certificate.setFileName(createCertName(participant));
 			certificate.setFileExtension("pdf");
-			String uuidText = createUUIDText(participant);
-			certificate.setUuid(UUIDHelper.generateUUID_SHA256(uuidText));
+			certificate.setUuid(tokenGenerator.generateToken(certificate));
 			certificate.setFileContent(buildPdfFileContent(certificate, command));
 
 			certificateList.add(certificate);
 		}
 
 		return certificateList;
-	}
-
-	/**
-	 * Não altere a ordem nem os dados sem alterar toda estrutura de validação.
-	 * Todos dados serão utilizados para gerar outro UUID, se alterar esta regra, os dados
-	 * do validador devem ser regerados, senão irão ficar inválidos, o que é impossível, pois
-	 * os certificados ficam com os participantes.
-	 * <p>
-	 * Portanto, nunca altere este método.
-	 *
-	 * @param participant participante
-	 * @return texto que será utilizado para gerar uuid com sha256
-	 */
-	private String createUUIDText(Participant participant) {
-		String cpf = participant.getCpf();
-		String participantIdentifier = cpf != null ? cpf : participant.getRg();
-		Event event = participant.getEvent();
-		String eventName = event.getName();
-		String eventStartedDate = DateHelper.format(event.getDateStarted(), DateFormat.SHORT);
-		String eventExecutor = event.getExecutor();
-
-		return String.format("%s - %s - %s - %s", participantIdentifier, eventName, eventStartedDate, eventExecutor);
 	}
 
 	private byte[] buildPdfFileContent(Certificate certificate, CertificatorGeneratorCommand command) {

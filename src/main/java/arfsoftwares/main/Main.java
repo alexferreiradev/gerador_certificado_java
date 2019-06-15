@@ -6,8 +6,10 @@ import arfsoftwares.sevice.dto.CertificatorGeneratorCommand;
 import arfsoftwares.sevice.dto.ReaderCommand;
 import arfsoftwares.sevice.exporter.CertificateExporter;
 import arfsoftwares.sevice.exporter.PdfExporter;
+import arfsoftwares.sevice.exporter.metadata.JsonMetadataGenerator;
 import arfsoftwares.sevice.generator.CertificateGenerator;
 import arfsoftwares.sevice.generator.GoJavaGenerator;
+import arfsoftwares.sevice.generator.token.TokenGenerator_SHA256;
 import arfsoftwares.sevice.reader.CsvParticipantReader;
 import arfsoftwares.sevice.reader.ParticipantsReader;
 
@@ -39,16 +41,16 @@ public class Main {
 	}
 
 	private static void exportCertificates(List<Certificate> certificateList) {
-		CertificateExporter pdfExporter = new PdfExporter();
-		for (Certificate certificate : certificateList) {
-			System.out.println("Exportando certificado: " + certificate.getFileName());
-			pdfExporter.export(certificate);
-			System.out.println("Certificado exportado");
-		}
+		CertificateExporter pdfExporter = new PdfExporter(new JsonMetadataGenerator());
+		pdfExporter.export(certificateList);
 	}
 
 	private static List<Certificate> createCertificateList(List<Participant> participantList, String[] args) {
-		CertificateGenerator generator = new GoJavaGenerator();
+		/*
+		  Cuidado ao alterar o gerador de token, pois é uma alteração que influencia na validação de futuros
+		  Certificados. Deve ser alterado no validador também.
+		 */
+		CertificateGenerator generator = new GoJavaGenerator(new TokenGenerator_SHA256());
 		CertificatorGeneratorCommand generatorCommand = new CertificatorGeneratorCommand();
 		generatorCommand.setParticipantList(participantList);
 		String param = args.length >= 2 ? args[2] : "";
