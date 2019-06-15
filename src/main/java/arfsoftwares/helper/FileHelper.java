@@ -18,4 +18,11 @@ public final class FileHelper {
 			return false;
 		}
 	}
+
+	public static String formatToValidFileName(String text) {
+		String textFormatted = text.replaceAll("\\s", "_");
+		textFormatted = textFormatted.replaceAll("/", "-");
+
+		return textFormatted;
+	}
 }

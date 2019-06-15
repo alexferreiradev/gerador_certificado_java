@@ -1,0 +1,16 @@
+{
+	"integrity_key": "12345566676",
+	"certificates": [
+		{
+			"token": "1234",
+			"participant": {
+				"identifier": "1234567",
+				"name": "Participante teste"
+			}
+		},
+		{
+			"token": "1234",
+			"identification": "1234566"
+		}
+	]
+}
