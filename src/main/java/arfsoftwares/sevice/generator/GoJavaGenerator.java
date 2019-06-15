@@ -1,10 +1,12 @@
 package arfsoftwares.sevice.generator;
 
 import arfsoftwares.data.model.Certificate;
+import arfsoftwares.data.model.Event;
 import arfsoftwares.data.model.Participant;
 import arfsoftwares.helper.DateHelper;
 import arfsoftwares.helper.FileHelper;
 import arfsoftwares.helper.StreamHelper;
+import arfsoftwares.helper.UUIDHelper;
 import arfsoftwares.sevice.dto.CertificatorGeneratorCommand;
 import arfsoftwares.util.ParticipantUtil;
 import com.itextpdf.text.BaseColor;
@@ -43,12 +45,25 @@ public class GoJavaGenerator implements CertificateGenerator {
 
 			certificate.setFileName(createCertName(participant));
 			certificate.setFileExtension("pdf");
+			String uuidText = createUUIDText(participant);
+			certificate.setFileExtension(UUIDHelper.generateUUIDToValidation(uuidText));
 			certificate.setFileContent(buildPdfFileContent(participant, command));
 
 			certificateList.add(certificate);
 		}
 
 		return certificateList;
+	}
+
+	private String createUUIDText(Participant participant) {
+		String cpf = participant.getCpf();
+		String participantIdentifier = cpf != null ? cpf : participant.getRg();
+		Event event = participant.getEvent();
+		String eventName = event.getName();
+		String eventStartedDate = DateHelper.format(event.getDateStarted(), DateFormat.SHORT);
+		String eventExecutor = event.getExecutor();
+
+		return String.format("%s - %s - %s - %s", participantIdentifier, eventName, eventStartedDate, eventExecutor);
 	}
 
 	private byte[] buildPdfFileContent(Participant participant, CertificatorGeneratorCommand command) {
