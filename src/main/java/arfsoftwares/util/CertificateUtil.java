@@ -9,6 +9,6 @@ public final class CertificateUtil {
 			throw new IllegalArgumentException("Certificado não é válido, não possue nome de arquivo ou extensão");
 		}
 
-		return certificate.getFileName() + "." + certificate.getFileExtension();
+		return String.format("%s.%s", certificate.getFileName(), certificate.getFileExtension());
 	}
 }

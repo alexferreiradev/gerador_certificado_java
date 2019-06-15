@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'arfsoftwares'
-version '1.0.1-SNAPSHOT'
+version '1.1.0-SNAPSHOT'
 
 jar {
 	manifest {
@@ -21,7 +21,10 @@ repositories {
 
 dependencies {
 	compile 'org.codehaus.groovy:groovy-all:2.3.11'
-	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13'
-	compile group: 'commons-io', name: 'commons-io', version: '2.6'
+	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13' // Manipulador de PDF
+	compile group: 'commons-io', name: 'commons-io', version: '2.6' // Manipulador de streams
+	compile group: 'commons-codec', name: 'commons-codec', version: '1.12' // Criar UUID com sha-256
+	compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5' // Manipular json files
+//	Dependências de testes
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 }

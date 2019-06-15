@@ -6,6 +6,7 @@ import arfsoftwares.helper.DateHelper;
 import arfsoftwares.helper.FileHelper;
 import arfsoftwares.helper.StreamHelper;
 import arfsoftwares.sevice.dto.CertificatorGeneratorCommand;
+import arfsoftwares.sevice.generator.token.TokenGenerator;
 import arfsoftwares.util.ParticipantUtil;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -32,6 +33,13 @@ import java.util.Date;
 import java.util.List;
 
 public class GoJavaGenerator implements CertificateGenerator {
+
+	private TokenGenerator tokenGenerator;
+
+	public GoJavaGenerator(TokenGenerator tokenGenerator) {
+		this.tokenGenerator = tokenGenerator;
+	}
+
 	@Override
 	public List<Certificate> generateCertificates(CertificatorGeneratorCommand command) {
 		List<Certificate> certificateList = new ArrayList<>();
@@ -40,10 +48,12 @@ public class GoJavaGenerator implements CertificateGenerator {
 
 		for (Participant participant : participantList) {
 			Certificate certificate = new Certificate();
+			certificate.setParticipant(participant);
 
 			certificate.setFileName(createCertName(participant));
 			certificate.setFileExtension("pdf");
-			certificate.setFileContent(buildPdfFileContent(participant, command));
+			certificate.setUuid(tokenGenerator.generateToken(certificate));
+			certificate.setFileContent(buildPdfFileContent(certificate, command));
 
 			certificateList.add(certificate);
 		}
@@ -51,7 +61,7 @@ public class GoJavaGenerator implements CertificateGenerator {
 		return certificateList;
 	}
 
-	private byte[] buildPdfFileContent(Participant participant, CertificatorGeneratorCommand command) {
+	private byte[] buildPdfFileContent(Certificate certificate, CertificatorGeneratorCommand command) {
 		FileOutputStream fileOutputStream = null;
 		Document document = null;
 
@@ -64,10 +74,10 @@ public class GoJavaGenerator implements CertificateGenerator {
 			document.open();
 
 			ColumnText ct = new ColumnText(writer.getDirectContent());
-			ct.setSimpleColumn(75, 200, 775, 425);
+			ct.setSimpleColumn(75, 200, 775, 480);
 
 			Font paragraphFont = createFontToCertText();
-			Paragraph paragraph = createParagraphToCertText(participant, paragraphFont);
+			Paragraph paragraph = createParagraphToCertText(certificate, paragraphFont);
 			ct.addElement(paragraph);
 			ct.go();
 
@@ -108,26 +118,27 @@ public class GoJavaGenerator implements CertificateGenerator {
 		background.restoreState();
 	}
 
-	private Paragraph createParagraphToCertText(Participant participant, Font paragraphFont) {
+	private Paragraph createParagraphToCertText(Certificate certificate, Font paragraphFont) {
 		Paragraph paragraph = new Paragraph();
 		paragraph.setLeading(0f, 1.1f);
 		paragraph.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 		paragraph.setFont(paragraphFont);
-		paragraph.add(generateCertificateText(participant));
+		paragraph.add(generateCertificateText(certificate));
 		return paragraph;
 	}
 
 	private Font createFontToCertText() {
 		Font paragraphFont = new Font();
-		paragraphFont.setSize(26);
+		paragraphFont.setSize(24);
 		paragraphFont.setColor(BaseColor.WHITE);
 		paragraphFont.setFamily(BaseFont.TIMES_ROMAN);
 		paragraphFont.setStyle(Font.NORMAL);
 		return paragraphFont;
 	}
 
-	private String generateCertificateText(Participant participant) {
-		String finalText = "Certificamos que NOME_PARTICIPANTE com TIPO_IDENTIFICACAO IDENTIFICACAO_PARTICIPANTE participou do evento NOME_EVENTO durante HORAS_EVENTO horas no dia DATA_EVENTO promovido pelo Gojava - Grupo de usuários Java de Goiás. O evento foi sobre ASSUNTO_EVENTO.";
+	private String generateCertificateText(Certificate certificate) {
+		String finalText = "Certificamos que NOME_PARTICIPANTE com TIPO_IDENTIFICACAO IDENTIFICACAO_PARTICIPANTE participou do evento NOME_EVENTO durante HORAS_EVENTO horas no dia DATA_EVENTO promovido pelo Gojava - Grupo de usuários Java de Goiás. O evento foi sobre ASSUNTO_EVENTO. Valide seu certificado em gojava.dev com o token de validação: VALIDATOR_UUID";
+		Participant participant = certificate.getParticipant();
 		finalText = finalText.replaceAll("NOME_PARTICIPANTE", ParticipantUtil.participantCompleteName(participant).toUpperCase());
 		if (participant.getCpf() != null) {
 			finalText = finalText.replaceAll("TIPO_IDENTIFICACAO", "CPF");
@@ -150,6 +161,7 @@ public class GoJavaGenerator implements CertificateGenerator {
 		}
 
 		finalText = finalText.replaceAll("ASSUNTO_EVENTO", participant.getEvent().getTalkerTopics());
+		finalText = finalText.replaceAll("VALIDATOR_UUID", certificate.getUuid());
 
 		return finalText;
 	}
