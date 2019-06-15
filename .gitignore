@@ -83,3 +83,7 @@ gojava_certificado-1-0-1.png
 Lista_jugTour_2019.csv
 Lista_jugTour_2019.ods
 Lista Presença Brasil JUGTour 2019.xlsx
+
+# Arquivos gerados por testes
+teste_output.pdf
+certificados/**
