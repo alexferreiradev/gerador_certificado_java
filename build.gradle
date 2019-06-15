@@ -21,7 +21,10 @@ repositories {
 
 dependencies {
 	compile 'org.codehaus.groovy:groovy-all:2.3.11'
-	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13'
-	compile group: 'commons-io', name: 'commons-io', version: '2.6'
+	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13' // Manipulador de PDF
+	compile group: 'commons-io', name: 'commons-io', version: '2.6' // Manipulador de streams
+	compile group: 'commons-codec', name: 'commons-codec', version: '1.12' // Criar UUID com sha-256
+
+//	Dependências de testes
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 }
