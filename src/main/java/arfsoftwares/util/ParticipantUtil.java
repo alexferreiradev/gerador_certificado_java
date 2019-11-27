@@ -2,6 +2,8 @@ package arfsoftwares.util;
 
 import arfsoftwares.data.model.Participant;
 
+import java.util.StringTokenizer;
+
 public final class ParticipantUtil {
 
 	public static String participantCompleteName(Participant participant) {
@@ -12,5 +14,27 @@ public final class ParticipantUtil {
 		String cpf = participant.getCpf();
 		String rg = participant.getRg();
 		return cpf != null ? cpf : rg;
+	}
+
+	public static String participantCompleteNameSummarized(Participant participant) {
+		String lastNameSumarized = sumarizeLastName(participant.getLastName());
+		return participant.getName() + " " + lastNameSumarized;
+	}
+
+	private static String sumarizeLastName(String lastName) {
+		StringTokenizer tokenizer = new StringTokenizer(lastName, " ", false);
+		int totalToken = tokenizer.countTokens();
+		StringBuffer buffer = new StringBuffer();
+		while (tokenizer.hasMoreTokens()) {
+			int countTokens = tokenizer.countTokens();
+			String token = tokenizer.nextToken();
+			if (countTokens == 1) {
+				buffer.append(token).append(" ");
+			} else {
+				buffer.append(token.charAt(0)).append(". ");
+			}
+		}
+
+		return buffer.toString().trim();
 	}
 }

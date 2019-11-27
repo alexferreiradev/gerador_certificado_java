@@ -8,7 +8,7 @@ import arfsoftwares.sevice.exporter.CertificateExporter;
 import arfsoftwares.sevice.exporter.PdfExporter;
 import arfsoftwares.sevice.exporter.metadata.JsonMetadataGenerator;
 import arfsoftwares.sevice.generator.CertificateGenerator;
-import arfsoftwares.sevice.generator.GoJavaGenerator;
+import arfsoftwares.sevice.generator.NasaHackGenerator;
 import arfsoftwares.sevice.generator.token.TokenGenerator_SHA256;
 import arfsoftwares.sevice.reader.CsvParticipantReader;
 import arfsoftwares.sevice.reader.ParticipantsReader;
@@ -50,7 +50,15 @@ public class Main {
 		  Cuidado ao alterar o gerador de token, pois é uma alteração que influencia na validação de futuros
 		  Certificados. Deve ser alterado no validador também.
 		 */
-		CertificateGenerator generator = new GoJavaGenerator(new TokenGenerator_SHA256());
+
+//		String generatorArg = args[1] ?:"";
+//		String generatorClassName = GoJavaGenerator.class.getName();
+//		if (generatorArg != null && !generatorArg.isEmpty()) {
+//			generatorClassName = "arfsoftwares.sevice.generator." + generatorArg + "Generator";
+//		}
+//		ClassLoader loader = ClassLoader.getSystemClassLoader();
+//		Class<CertificateGenerator> generatorClass = new Class<>(loader);
+		CertificateGenerator generator = new NasaHackGenerator(new TokenGenerator_SHA256());
 		CertificatorGeneratorCommand generatorCommand = new CertificatorGeneratorCommand();
 		generatorCommand.setParticipantList(participantList);
 		String param = args.length >= 2 ? args[2] : "";
